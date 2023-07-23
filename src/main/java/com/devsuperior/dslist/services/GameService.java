@@ -2,6 +2,7 @@ package com.devsuperior.dslist.services;
 
 import java.util.List;
 
+import com.devsuperior.dslist.entities.exceptions.CustomObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,7 +22,7 @@ public class GameService {
 	
 	@Transactional(readOnly = true)
 	public GameDTO findById(@PathVariable Long listId) {
-		Game result = gameRepository.findById(listId).get();
+		Game result = gameRepository.findById(listId).orElseThrow(() -> new CustomObjectNotFoundException(listId));
 		return new GameDTO(result);
 	}
 	
